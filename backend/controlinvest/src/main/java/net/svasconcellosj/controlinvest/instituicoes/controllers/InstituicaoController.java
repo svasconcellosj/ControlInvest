@@ -1,6 +1,6 @@
 package net.svasconcellosj.controlinvest.instituicoes.controllers;
 
-import net.svasconcellosj.controlinvest.instituicoes.model.InstituicaoModel;
+import net.svasconcellosj.controlinvest.instituicoes.models.InstituicaoModel;
 import net.svasconcellosj.controlinvest.instituicoes.services.InstituicaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/instituicoes")
+@RequestMapping("/instituicoes")
 @CrossOrigin(origins = "http://localhost:8081") // Especifique a origem permitida
 public class InstituicaoController {
 
@@ -30,7 +30,7 @@ public class InstituicaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<InstituicaoModel> getInstituicaoById(@PathVariable("id") BigInteger id) {
+    public ResponseEntity<InstituicaoModel> getInstituicaoById(@PathVariable Long id) {
         try {
             Optional<InstituicaoModel> instituicao = instituicaoService.findInstituicao(id);
             return instituicao.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
@@ -51,7 +51,7 @@ public class InstituicaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<InstituicaoModel> updateInstituicao(@PathVariable("id") BigInteger id,
+    public ResponseEntity<InstituicaoModel> updateInstituicao(@PathVariable Long id,
                                                               @RequestBody InstituicaoModel instituicaoModel) {
         try {
             InstituicaoModel updatedInstituicao = instituicaoService.updateInstituicao(id, instituicaoModel);
@@ -64,7 +64,7 @@ public class InstituicaoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteInstituicao(@PathVariable("id") BigInteger id) {
+    public ResponseEntity<HttpStatus> deleteInstituicao(@PathVariable Long id) {
         try {
             instituicaoService.deleteInstituicao(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

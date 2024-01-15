@@ -1,11 +1,11 @@
 package net.svasconcellosj.controlinvest.instituicoes.services;
 
-import net.svasconcellosj.controlinvest.instituicoes.model.InstituicaoModel;
+import net.svasconcellosj.controlinvest.instituicoes.models.InstituicaoModel;
 import net.svasconcellosj.controlinvest.instituicoes.repositories.InstituicaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +22,8 @@ public class InstituicaoService {
     public InstituicaoModel saveInstituicao(InstituicaoModel instituicaoModel) {
         // Adiciona tratamento para exceções de persistência
         try {
+            instituicaoModel.setCreated_at(LocalDateTime.now());
+            instituicaoModel.setUpdated_at(LocalDateTime.now());
             return instituicaoRepository.save(instituicaoModel);
         } catch (Exception e) {
             // Adicione aqui o que deseja fazer em caso de falha na persistência
@@ -29,11 +31,11 @@ public class InstituicaoService {
         }
     }
 
-    public Optional<InstituicaoModel> findInstituicao(BigInteger id) {
+    public Optional<InstituicaoModel> findInstituicao(Long id) {
         return instituicaoRepository.findById(id);
     }
 
-    public InstituicaoModel updateInstituicao(BigInteger id, InstituicaoModel instituicao) {
+    public InstituicaoModel updateInstituicao(Long id, InstituicaoModel instituicao) {
         // Adiciona tratamento para exceções de persistência
         try {
             if (instituicaoRepository.existsById(id)) {
@@ -47,7 +49,7 @@ public class InstituicaoService {
         }
     }
 
-    public void deleteInstituicao(BigInteger id) {
+    public void deleteInstituicao(Long id) {
         // Adiciona tratamento para exceções de persistência
         try {
             instituicaoRepository.deleteById(id);
